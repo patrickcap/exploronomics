@@ -4,6 +4,7 @@ import { geoOrthographic, geoPath } from 'd3-geo';
 
 const Globe = () => {
   const svgRef = useRef();
+  const tooltipRef = useRef();
   const [worldData, setWorldData] = useState(null);
 
   // Function to handle resizing of the window
@@ -61,6 +62,17 @@ const Globe = () => {
       .attr('stroke', '#fff')
       .attr('stroke-width', 0.5);
 
+    // Create and style the tooltip
+    const tooltip = d3.select('body').append('div')
+      .attr('class', 'tooltip')
+      .style('position', 'absolute')
+      .style('visibility', 'hidden')
+      .style('background', 'rgba(0, 0, 0, 0.7)')
+      .style('color', '#fff')
+      .style('padding', '5px')
+      .style('border-radius', '5px')
+      .style('font-size', '12px');
+
     // Add interactivity (dragging to rotate the globe)
     const drag = d3.drag()
       .on('drag', (event) => {
@@ -79,17 +91,30 @@ const Globe = () => {
 
     svg.call(drag);
 
-    // Hover effect: Highlight country on hover
+    // Hover effect: Highlight country on hover and display tooltip
     countries
       .on('mouseenter', function (event, d) {
         d3.select(this)
           .transition().duration(200)
           .attr('fill', 'orange');  // Change color to highlight on hover
+
+        // Show the tooltip and update its position
+        tooltip.style('visibility', 'visible')
+          .text(d.properties.name);  // Set the tooltip text to the country's name
+
+        // Position the tooltip to the left of the cursor
+        const mouseX = event.pageX;
+        const mouseY = event.pageY;
+        tooltip.style('left', `${mouseX - tooltip.node().offsetWidth - 10}px`)
+          .style('top', `${mouseY - tooltip.node().offsetHeight / 2}px`);
       })
       .on('mouseleave', function () {
         d3.select(this)
           .transition().duration(200)
           .attr('fill', '#ccc');  // Reset color when hover ends
+
+        // Hide the tooltip
+        tooltip.style('visibility', 'hidden');
       });
 
     svg.selectAll('path').attr('d', path);
@@ -98,6 +123,8 @@ const Globe = () => {
   return (
     <div style={{ margin: 0, padding: 0, overflow: 'hidden', height: '100vh', width: '100vw' }}>
       <svg ref={svgRef}></svg>
+      {/* Tooltip is positioned absolutely within the body */}
+      <div ref={tooltipRef} className="tooltip"></div>
     </div>
   );
 };
