@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/exploronomics/static/css/main.f855e6bc.css",
+    "main.js": "/exploronomics/static/js/main.b67275ec.js",
+    "static/js/453.98dd76c5.chunk.js": "/exploronomics/static/js/453.98dd76c5.chunk.js",
+    "index.html": "/exploronomics/index.html",
+    "main.f855e6bc.css.map": "/exploronomics/static/css/main.f855e6bc.css.map",
+    "main.b67275ec.js.map": "/exploronomics/static/js/main.b67275ec.js.map",
+    "453.98dd76c5.chunk.js.map": "/exploronomics/static/js/453.98dd76c5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.b67275ec.js"
+  ]
+}
