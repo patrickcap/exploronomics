@@ -108,12 +108,19 @@ const Globe = () => {
         tooltip.style('left', `${mouseX - tooltip.node().offsetWidth - 10}px`)
           .style('top', `${mouseY - tooltip.node().offsetHeight / 2}px`);
       })
+      .on('mousemove', function (event) {
+        // Keep the tooltip updated when the mouse moves over the country
+        const mouseX = event.pageX;
+        const mouseY = event.pageY;
+        tooltip.style('left', `${mouseX - tooltip.node().offsetWidth - 10}px`)
+          .style('top', `${mouseY - tooltip.node().offsetHeight / 2}px`);
+      })
       .on('mouseleave', function () {
         d3.select(this)
           .transition().duration(200)
           .attr('fill', '#ccc');  // Reset color when hover ends
 
-        // Hide the tooltip
+        // Hide the tooltip when mouse leaves the country
         tooltip.style('visibility', 'hidden');
       });
 
