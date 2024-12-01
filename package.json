@@ -1,0 +1,14 @@
+{
+  "name": "exploronomics",
+  "version": "1.0.0",
+  "description": "Exploronomics - Macroeconomics Dashboard",
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix docs",
+    "start:backend": "npm start --prefix backend",
+    "start:docs": "npm start --prefix docs",
+    "start": "concurrently \"npm start --prefix backend\" \"npm start --prefix docs\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
