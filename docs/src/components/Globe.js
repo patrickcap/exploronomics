@@ -28,7 +28,7 @@ const Globe = () => {
 
   useEffect(() => {
     // Fetch the GeoJSON file from the public folder
-    fetch('/data/world-geojson.json')  // Correct path to the file in the public folder
+    fetch('/exploronomics/data/world-geojson.json')  // Correct path to the file in the public folder
       .then((response) => response.json())
       .then((data) => {
         setWorldData(data);  // Set the GeoJSON data
