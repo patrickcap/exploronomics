@@ -1,4 +1,4 @@
-# Exploronomics: Interactive Globe for Exploring Global Economics
+# Exploronomics: Exploring Global Economics
 
 ![Exploronomics globe](img/exploronomics_globe.png)
 
