@@ -1,6 +1,6 @@
 # Exploronomics: Interactive Globe for Exploring Global Economics
 
-![Exploronomics globe](img\exploronomics_globe.png)
+![Exploronomics globe](img/exploronomics_globe.png)
 
 Exploronomics provides an intuitive and visually engaging way to explore the economics of countries around the world. Users can interact with a 3D globe, click on countries to learn more about them, and view key information displayed dynamically in a user-friendly modal window.
 
