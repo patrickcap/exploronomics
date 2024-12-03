@@ -11,7 +11,7 @@ const Globe = () => {
   const [tableData, setTableData] = useState([]); // Store table data for modal
   const [years, setYears] = useState([]); // Store years for table columns
 
-  const [projection, setProjection] = useState(() =>
+  const [projection] = useState(() =>
     geoOrthographic().scale(250).translate([400, 300]).clipAngle(90)
   ); // Initialize projection on first render
 
