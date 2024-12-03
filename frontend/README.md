@@ -1,70 +1,140 @@
-# Getting Started with Create React App
+# Exploronomics: Exploring Global Economics
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Exploronomics globe](img/exploronomics_globe.png)
 
-## Available Scripts
+Exploronomics provides an intuitive and visually engaging way to explore the economics of countries around the world. Users can interact with a 3D globe, click on countries to learn more about them, and view key information displayed dynamically in a user-friendly modal window.
 
-In the project directory, you can run:
+This project leverages modern web technologies, including React, D3.js, and GitHub Pages for deployment.
 
-### `npm start`
+## Features
+- Interactive Globe: Rotate and zoom the globe by dragging or scrolling.
+- Country Highlighting: Hover over a country to highlight it.
+- Country Selection: Click on a country to display additional details in a modal window.
+- Responsive Design: Scales dynamically to fit different screen sizes.
+- GitHub Pages Deployment: Easily accessible via a public GitHub repository.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Getting Started
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
+- Node.js and npm: Install from Node.js official site.
+- Git: Ensure Git is installed and set up.
 
-### `npm test`
+### Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/frontend/running-tests) for more information.
+Clone the repository:
 
-### `npm run build`
+```bash
+git clone https://github.com/your-username/exploronomics.git
+cd exploronomics
+Install dependencies:
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+Start the development server:
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm start
+Visit http://localhost:3000 in your browser to see the app in action.
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/frontend/deployment) for more information.
+## Contributing
 
-### `npm run eject`
+Contributions are welcome! Please follow these guidelines to ensure smooth collaboration.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Workflow for Development
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone and Set Up the Repository
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Fork the repository, clone your fork, and create a feature branch:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+git clone https://github.com/your-username/exploronomics.git
+cd exploronomics
+git checkout -b feature/my-new-feature
+```
 
-## Learn More
+2. Make Your Changes
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/frontend/getting-started).
+Develop your feature or fix. For UI changes, test locally to ensure compatibility with the app's design and interactivity.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3. Commit and Push
 
-### Code Splitting
+Commit your changes with a meaningful message:
 
-This section has moved here: [https://facebook.github.io/create-react-app/frontend/code-splitting](https://facebook.github.io/create-react-app/frontend/code-splitting)
+```bash
+git commit -m "Add feature to highlight countries"
+```
 
-### Analyzing the Bundle Size
+Push to your fork:
 
-This section has moved here: [https://facebook.github.io/create-react-app/frontend/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/frontend/analyzing-the-bundle-size)
+```bash
+git push origin feature/my-new-feature
+```
 
-### Making a Progressive Web App
+4. Create a Pull Request
 
-This section has moved here: [https://facebook.github.io/create-react-app/frontend/making-a-progressive-web-app](https://facebook.github.io/create-react-app/frontend/making-a-progressive-web-app)
+Navigate to the original repository and create a pull request from your fork.
 
-### Advanced Configuration
+### Deploying Updates to GitHub Pages
 
-This section has moved here: [https://facebook.github.io/create-react-app/frontend/advanced-configuration](https://facebook.github.io/create-react-app/frontend/advanced-configuration)
+To ensure the app remains live and up-to-date on GitHub Pages:
 
-### Deployment
+1. Make Changes
 
-This section has moved here: [https://facebook.github.io/create-react-app/frontend/deployment](https://facebook.github.io/create-react-app/frontend/deployment)
+Edit the app as necessary, ensuring the main src files are updated.
 
-### `npm run build` fails to minify
+2. Update package.json
 
-This section has moved here: [https://facebook.github.io/create-react-app/frontend/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/frontend/troubleshooting#npm-run-build-fails-to-minify)
+Verify that the homepage field in package.json is correctly set to:
+
+```json
+"homepage": "https://your-username.github.io/exploronomics"
+```
+
+3. Build the Project
+
+Generate production-ready files:
+
+```bash
+npm run build
+```
+
+4. Deploy to GitHub Pages
+
+Deploy the build folder to the gh-pages branch:
+
+```bash
+npm run deploy
+```
+
+5. Verify Deployment
+
+Visit https://your-username.github.io/exploronomics to verify the changes are live.
+
+## Known Technicalities
+
+### GitHub Pages & gh-pages Branch
+
+GitHub Pages serves files from the gh-pages branch. The npm run deploy script automates the process of building the app and pushing the build directory to gh-pages.
+
+### Relative File Paths
+
+When hosting with GitHub Pages, ensure that:
+
+- Static files (e.g., GeoJSON data) are stored in public/ and referenced with relative paths.
+- The base tag in index.html is configured for GitHub Pages by adding:
+
+```html
+<base href="%PUBLIC_URL%/">
+```
+
+## Future Improvements
+- Integrate more economic indicators for each country.
+- Add data visualization such as graphs and charts.
+- Enhance mobile support with touch-based interactions.
+
+## License
+
+This project is open-source and available under the MIT License.
