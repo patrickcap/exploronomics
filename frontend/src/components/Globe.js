@@ -7,10 +7,15 @@ const Globe = () => {
   const svgRef = useRef();
   const [worldData, setWorldData] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null); // Track the selected country
+  const [economicData, setEconomicData] = useState(null); // Store economic data
+  const [tableData, setTableData] = useState([]); // Store table data for modal
+  const [years, setYears] = useState([]); // Store years for table columns
+
   const [projection, setProjection] = useState(() =>
     geoOrthographic().scale(250).translate([400, 300]).clipAngle(90)
   ); // Initialize projection on first render
 
+  // Load GeoJSON data
   useEffect(() => {
     fetch('/exploronomics/data/world-geojson.json') // Update the path as per your deployment
       .then((response) => response.json())
@@ -18,6 +23,41 @@ const Globe = () => {
       .catch((error) => console.error('Error loading GeoJSON data:', error));
   }, []);
 
+  // Load economic CSV data
+  useEffect(() => {
+    d3.csv('/exploronomics/data/world_economic_data_2023_1999.csv')
+      .then((data) => {
+        setEconomicData(data);
+
+        // Extract year columns from the first row of the data
+        if (data.length > 0) {
+          const yearColumns = Object.keys(data[0]).filter((key) =>
+            key.match(/\d{4} \[YR\d{4}\]/)
+          );
+          const formattedYears = yearColumns.map((year) => year.split(' ')[0]); // Extract years
+          setYears(formattedYears.reverse()); // Reverse the order for descending years
+        }
+      })
+      .catch((error) => console.error('Error loading economic data:', error));
+  }, []);
+
+  // Update the table data for the modal
+  useEffect(() => {
+    if (selectedCountry && economicData) {
+      const countryName = selectedCountry.properties.name;
+
+      // Filter economic data for the selected country
+      const countryInfo = economicData.filter((row) => row['Country Name'] === countryName);
+
+      if (countryInfo.length > 0) {
+        setTableData(countryInfo);
+      } else {
+        setTableData([]);
+      }
+    }
+  }, [selectedCountry, economicData]);
+
+  // Update the globe rendering
   useEffect(() => {
     if (!worldData) return;
 
@@ -78,7 +118,36 @@ const Globe = () => {
               &times;
             </button>
             <h2>{selectedCountry.properties.name}</h2>
-            <p>This is information about {selectedCountry.properties.name}.</p>
+            <div className="modal-content">
+              {tableData.length > 0 ? (
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Series Name</th>
+                      {years.map((year) => (
+                        <th key={year}>{year}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableData.map((row, index) => (
+                      <tr key={index}>
+                        <td>{row['Series Name']}</td>
+                        {years.map((year) => (
+                          <td key={year}>
+                            {row[`${year} [YR${year}]`] !== '..'
+                              ? row[`${year} [YR${year}]`]
+                              : 'N/A'}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <p>No data available for this country.</p>
+              )}
+            </div>
           </div>
         </div>
       )}

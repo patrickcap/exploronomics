@@ -40,7 +40,7 @@ const parseCSV = async (country) => {
     });
 };
 
-app.get('/api/country-data', async (req, res) => {
+app.get('/api/data', async (req, res) => {
     const { country } = req.query;
     if (!country) {
         return res.status(400).json({ error: 'Country parameter is required' });
