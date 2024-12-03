@@ -110,6 +110,12 @@ const Globe = () => {
 
   return (
     <div>
+      <button
+        className="back-to-website"
+        onClick={() => window.location.href = 'https://patrickcap.github.io/'}
+      >
+        Patrick Capaldo
+      </button>
       <svg ref={svgRef}></svg>
       {selectedCountry && (
         <div className="modal-overlay" onClick={handleCloseModal}>
@@ -123,7 +129,7 @@ const Globe = () => {
                 <table>
                   <thead>
                     <tr>
-                      <th>Series Name</th>
+                      <th className="wide-column">Indicator</th>
                       {years.map((year) => (
                         <th key={year}>{year}</th>
                       ))}
@@ -131,8 +137,8 @@ const Globe = () => {
                   </thead>
                   <tbody>
                     {tableData.map((row, index) => (
-                      <tr key={index}>
-                        <td>{row['Series Name']}</td>
+                      <tr key={index} className={index % 2 === 0 ? 'row-alternate' : ''}>
+                        <td className="wide-column">{row['Series Name']}</td>
                         {years.map((year) => (
                           <td key={year}>
                             {row[`${year} [YR${year}]`] !== '..'

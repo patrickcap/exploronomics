@@ -42,3 +42,22 @@
   align-items: center;
   z-index: 1000;
 }
+
+/* Back to Website Button */
+.back-to-website {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background-color: #3f4145;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.back-to-website:hover {
+  background-color: #ff9800;
+}
