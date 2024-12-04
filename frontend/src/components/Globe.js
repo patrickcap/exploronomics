@@ -123,6 +123,12 @@ const Globe = () => {
 
   return (
     <div>
+      <button
+        className="back-to-website"
+        onClick={() => window.open('https://patrickcap.github.io/', '_blank')}
+        >
+        Patrick Capaldo
+      </button>
       <svg ref={svgRef}></svg>
       {selectedCountry && (
         <div className='modal-overlay' onClick={handleCloseModal}>
