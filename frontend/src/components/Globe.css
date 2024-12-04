@@ -45,9 +45,6 @@
 
 /* Back to Website Button */
 .back-to-website {
-  position: absolute;
-  top: 20px;
-  left: 20px;
   padding: 10px 20px;
   background-color: #3f4145;
   color: white;

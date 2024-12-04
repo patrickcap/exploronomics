@@ -1,52 +1,66 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import { geoOrthographic, geoPath } from 'd3-geo';
-import './Globe.css'; // Add styles for the modal and highlight
+import './Globe.css';
 
 const Globe = () => {
   const svgRef = useRef();
   const [worldData, setWorldData] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState(null); // Track the selected country
-  const [economicData, setEconomicData] = useState(null); // Store economic data
-  const [tableData, setTableData] = useState([]); // Store table data for modal
-  const [years, setYears] = useState([]); // Store years for table columns
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [economicData, setEconomicData] = useState(null);
+  const [tableData, setTableData] = useState([]);
+  const [years, setYears] = useState([]);
 
   const [projection] = useState(() =>
     geoOrthographic().scale(250).translate([400, 300]).clipAngle(90)
-  ); // Initialize projection on first render
+  );
 
-  // Load GeoJSON data
+  // Country name mapping to bridge difference between d3.js and Data Bank
+  const countryNameMap = {
+    'England': 'United Kingdom',
+    'Democratic Republic of the Congo': 'Congo, Dem. Rep.',
+    'Republic of the Congo': 'Congo, Rep.',
+    'Ivory Coast': 'Cote d\'Ivoire',
+    'United States of America': 'United States',
+    'United Republic of Tanzania': 'Tanzania',
+    'Iran': 'Iran, Islamic Rep.',
+    'Russia': 'Russian Federation',
+    'Republic of Serbia': 'Serbia',
+    'Slovakia': 'Slovak Republic'
+  };
+
+  // Normalize the country name
+  const normalizeCountryName = (geoName) => {
+    return countryNameMap[geoName] || geoName; // Use mapped name or default to geoName
+  };
+
   useEffect(() => {
-    fetch('/exploronomics/data/world-geojson.json') // Update the path as per your deployment
+    fetch('/exploronomics/data/world-geojson.json')
       .then((response) => response.json())
       .then((data) => setWorldData(data))
       .catch((error) => console.error('Error loading GeoJSON data:', error));
   }, []);
 
-  // Load economic CSV data
   useEffect(() => {
     d3.csv('/exploronomics/data/world_economic_data_2023_1999.csv')
       .then((data) => {
         setEconomicData(data);
 
-        // Extract year columns from the first row of the data
         if (data.length > 0) {
           const yearColumns = Object.keys(data[0]).filter((key) =>
             key.match(/\d{4} \[YR\d{4}\]/)
           );
-          const formattedYears = yearColumns.map((year) => year.split(' ')[0]); // Extract years
-          setYears(formattedYears.reverse()); // Reverse the order for descending years
+          const formattedYears = yearColumns.map((year) => year.split(' ')[0]);
+          setYears(formattedYears.reverse());
         }
       })
       .catch((error) => console.error('Error loading economic data:', error));
   }, []);
 
-  // Update the table data for the modal
   useEffect(() => {
     if (selectedCountry && economicData) {
-      const countryName = selectedCountry.properties.name;
+      const countryName = normalizeCountryName(selectedCountry.properties.name);
 
-      // Filter economic data for the selected country
       const countryInfo = economicData.filter((row) => row['Country Name'] === countryName);
 
       if (countryInfo.length > 0) {
@@ -57,7 +71,6 @@ const Globe = () => {
     }
   }, [selectedCountry, economicData]);
 
-  // Update the globe rendering
   useEffect(() => {
     if (!worldData) return;
 
@@ -71,7 +84,7 @@ const Globe = () => {
       .attr('width', width)
       .attr('height', height);
 
-    svg.selectAll('*').remove(); // Clear existing elements
+    svg.selectAll('*').remove();
 
     svg.append('g')
       .selectAll('path')
@@ -83,13 +96,13 @@ const Globe = () => {
       .attr('stroke', '#fff')
       .attr('stroke-width', 0.5)
       .on('mouseover', function (event, d) {
-        if (selectedCountry !== d) d3.select(this).attr('fill', '#ff9800'); // Highlight on hover
+        if (selectedCountry !== d) d3.select(this).attr('fill', '#ff9800');
       })
       .on('mouseout', function (event, d) {
-        if (selectedCountry !== d) d3.select(this).attr('fill', '#ccc'); // Remove highlight on hover out
+        if (selectedCountry !== d) d3.select(this).attr('fill', '#ccc');
       })
       .on('click', (event, d) => {
-        setSelectedCountry(selectedCountry === d ? null : d); // Toggle selection
+        setSelectedCountry(selectedCountry === d ? null : d);
       });
 
     const drag = d3.drag()
@@ -112,24 +125,24 @@ const Globe = () => {
     <div>
       <button
         className="back-to-website"
-        onClick={() => window.location.href = 'https://patrickcap.github.io/'}
-      >
+        onClick={() => window.open('https://patrickcap.github.io/', '_blank')}
+        >
         Patrick Capaldo
       </button>
       <svg ref={svgRef}></svg>
       {selectedCountry && (
-        <div className="modal-overlay" onClick={handleCloseModal}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={handleCloseModal}>
+        <div className='modal-overlay' onClick={handleCloseModal}>
+          <div className='modal' onClick={(e) => e.stopPropagation()}>
+            <button className='modal-close' onClick={handleCloseModal}>
               &times;
             </button>
-            <h2>{selectedCountry.properties.name}</h2>
-            <div className="modal-content">
+            <h2>{normalizeCountryName(selectedCountry.properties.name)}</h2>
+            <div className='modal-content'>
               {tableData.length > 0 ? (
                 <table>
                   <thead>
                     <tr>
-                      <th className="wide-column">Indicator</th>
+                      <th className='wide-column'>Series Name</th>
                       {years.map((year) => (
                         <th key={year}>{year}</th>
                       ))}
@@ -138,7 +151,7 @@ const Globe = () => {
                   <tbody>
                     {tableData.map((row, index) => (
                       <tr key={index} className={index % 2 === 0 ? 'row-alternate' : ''}>
-                        <td className="wide-column">{row['Series Name']}</td>
+                        <td className='wide-column'>{row['Series Name']}</td>
                         {years.map((year) => (
                           <td key={year}>
                             {row[`${year} [YR${year}]`] !== '..'
