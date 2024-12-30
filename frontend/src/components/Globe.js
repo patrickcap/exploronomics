@@ -42,7 +42,7 @@ const Globe = () => {
   }, []);
 
   useEffect(() => {
-    d3.csv('/exploronomics/data/world_economic_data_2023_1999.csv')
+    d3.csv('/exploronomics/data/world_economic_data_2023_1999_formatted_output.csv')
       .then((data) => {
         setEconomicData(data);
 
